@@ -6,6 +6,10 @@
 - Marlon Osmín Ortiz Carcamo – OC232936  
 - Mauricio Enrique Herrera Rico – HR230334
 
+## PDF
+
+- **[Doc-DSM.pdf](https://github.com/user-attachments/files/22000843/Doc-DSM.pdf)**
+
 ## Link a Notion
 
 - **https://www.notion.so/ProyectoCatedraDSM-25cdecf79b448067bf38eaa1c16afce1?source=copy_link**
@@ -13,6 +17,8 @@
 ## Link a Figma
 
 - **https://www.figma.com/design/DItGDfog40OOdq6VFP1lEv/ProyectoDSM?t=vykiDh2IPsfiKfjS-1**
+
+---
 
 # ComeBienSV – Escáner Nutricional Inteligente
 
@@ -38,9 +44,8 @@ La aplicación permite:
 
 ## Funcionalidades principales
 1. **Login y registro de usuario:** permite personalizar la experiencia según edad, peso y preferencias.  
-2. **Escaneo de alimentos:** mediante cámara y códigos de barras, con consulta a la base de datos de alimentos.  
-3. **Historial de consumo:** almacena los productos escaneados y permite consultar estadísticas.  
-4. **Recomendaciones personalizadas:** sugiere alternativas más saludables según los datos nutricionales.  
+2. **Escaneo de alimentos:** mediante cámara y códigos de barras, con consulta a la base de datos de alimentos.   
+3. **Recomendaciones personalizadas:** sugiere alternativas más saludables según los datos nutricionales.  
 
 ---
 
