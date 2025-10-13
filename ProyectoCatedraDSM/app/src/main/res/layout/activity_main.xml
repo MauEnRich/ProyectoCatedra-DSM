@@ -1,0 +1,92 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F8"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🍎 Analizador de Alimentos"
+            android:textColor="#1E3A8A"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Campo de búsqueda -->
+        <EditText
+            android:id="@+id/etFoodName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escribe el nombre del alimento..."
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:textColor="#000000"
+            android:textColorHint="#777777"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón de búsqueda por nombre -->
+        <Button
+            android:id="@+id/btnSearchFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar alimento"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:backgroundTint="#2563EB"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Preview de cámara -->
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón para tomar foto -->
+        <Button
+            android:id="@+id/btnTakePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tomar foto y analizar"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Imagen del producto -->
+        <ImageView
+            android:id="@+id/ivPreview"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/image_border"
+            android:contentDescription="Vista previa del alimento" />
+
+        <!-- Resultado del análisis -->
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aquí aparecerá la información del alimento..."
+            android:textColor="#111827"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:elevation="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_textview" />
+
+    </LinearLayout>
+
+</ScrollView>

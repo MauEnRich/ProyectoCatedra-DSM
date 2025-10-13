@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "778590209269",
+    "project_id": "proyectodsm-24dfc",
+    "storage_bucket": "proyectodsm-24dfc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778590209269:android:c1951bf7a13632aeacf1bc",
+        "android_client_info": {
+          "package_name": "sv.edu.proyectocatedradsm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLcyCnai-Q36rOIi2o1NDh8SEAQK418x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
