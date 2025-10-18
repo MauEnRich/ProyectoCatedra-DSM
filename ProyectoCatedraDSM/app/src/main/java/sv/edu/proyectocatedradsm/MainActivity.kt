@@ -1,10 +1,12 @@
 package sv.edu.proyectocatedradsm
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -16,6 +18,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabel
 import com.google.mlkit.vision.label.ImageLabeling
@@ -43,7 +46,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // --- Configurar menú inferior ---
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.nav_home
 
+        bottomNavigationView.setOnItemSelectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    Toast.makeText(this, "Inicio seleccionado", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.nav_config -> {
+                    Toast.makeText(this, "Configuración (en desarrollo)", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.nav_community -> {
+                    startActivity(Intent(this, CommunityActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+
+                R.id.nav_imc -> {
+                    startActivity(android.content.Intent(this, IMCActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        // --- Inicializar vistas ---
         btnSearchFood = findViewById(R.id.btnSearchFood)
         etFoodName = findViewById(R.id.etFoodName)
         tvResult = findViewById(R.id.tvResult)
@@ -51,9 +85,10 @@ class MainActivity : AppCompatActivity() {
         previewView = findViewById(R.id.previewView)
         btnTakePhoto = findViewById(R.id.btnTakePhoto)
 
-
+        // --- Permisos de cámara ---
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.CAMERA),
@@ -63,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             startCamera()
         }
 
-
+        // --- Buscar alimento por texto ---
         btnSearchFood.setOnClickListener {
             val name = etFoodName.text.toString().trim()
             if (name.isEmpty()) {
@@ -73,13 +108,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Tomar foto y analizar
+        // --- Tomar foto y analizar ---
         btnTakePhoto.setOnClickListener {
             takePhoto()
         }
     }
 
-
+    // ---------- CÁMARA ----------
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
@@ -100,13 +135,10 @@ class MainActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        // Crear archivo temporal
         val photoFile = File(cacheDir, "temp_photo.jpg")
-
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         imageCapture.takePicture(
@@ -114,8 +146,11 @@ class MainActivity : AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, output.savedUri ?: return)
-                    ivPreview.setImageBitmap(bitmap) // Mostrar foto en ImageView
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        contentResolver,
+                        output.savedUri ?: return
+                    )
+                    ivPreview.setImageBitmap(bitmap)
                     analyzeBitmap(bitmap)
                 }
 
@@ -126,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-
+    // ---------- ANÁLISIS DE IMAGEN ----------
     private fun analyzeBitmap(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
@@ -151,7 +186,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-
+    // ---------- CONSULTA A LA API ----------
     private fun searchFood(name: String) {
         val call: Call<ProductResponse> = RetrofitInstance.api.searchFood(name, size = 10)
         call.enqueue(object : Callback<ProductResponse> {
@@ -199,6 +234,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    // ---------- PERMISOS ----------
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
