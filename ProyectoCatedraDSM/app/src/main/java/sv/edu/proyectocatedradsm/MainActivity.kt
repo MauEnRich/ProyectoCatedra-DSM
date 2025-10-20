@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -19,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabel
 import com.google.mlkit.vision.label.ImageLabeling
@@ -29,6 +31,7 @@ import retrofit2.Response
 import sv.edu.proyectocatedradsm.api.ProductResponse
 import sv.edu.proyectocatedradsm.api.RetrofitInstance
 import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,42 +45,37 @@ class MainActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private val CAMERA_PERMISSION_CODE = 100
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // --- Configurar menú inferior ---
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.nav_home
 
         bottomNavigationView.setOnItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    Toast.makeText(this, "Inicio seleccionado", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_config -> {
-                    Toast.makeText(this, "Configuración (en desarrollo)", Toast.LENGTH_SHORT).show()
-                    true
-                }
-
-                R.id.nav_community -> {
-                    startActivity(Intent(this, CommunityActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    true
-                }
-
                 R.id.nav_imc -> {
                     startActivity(android.content.Intent(this, IMCActivity::class.java))
                     overridePendingTransition(0, 0)
                     true
                 }
-
+                R.id.nav_community -> {
+                    startActivity(Intent(this, CommunityActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.nav_logout -> { // CASO DE LOGOUT
+                    showLogoutConfirmation()
+                    false
+                }
                 else -> false
             }
         }
 
-        // --- Inicializar vistas ---
         btnSearchFood = findViewById(R.id.btnSearchFood)
         etFoodName = findViewById(R.id.etFoodName)
         tvResult = findViewById(R.id.tvResult)
@@ -85,7 +83,6 @@ class MainActivity : AppCompatActivity() {
         previewView = findViewById(R.id.previewView)
         btnTakePhoto = findViewById(R.id.btnTakePhoto)
 
-        // --- Permisos de cámara ---
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -98,7 +95,6 @@ class MainActivity : AppCompatActivity() {
             startCamera()
         }
 
-        // --- Buscar alimento por texto ---
         btnSearchFood.setOnClickListener {
             val name = etFoodName.text.toString().trim()
             if (name.isEmpty()) {
@@ -108,13 +104,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // --- Tomar foto y analizar ---
         btnTakePhoto.setOnClickListener {
             takePhoto()
         }
     }
 
-    // ---------- CÁMARA ----------
+
+    private fun showLogoutConfirmation() {
+        AlertDialog.Builder(this)
+            .setTitle("Cerrar Sesión")
+            .setMessage("¿Estás seguro de que quieres cerrar la sesión actual?")
+            .setPositiveButton("Sí, Cerrar") { dialog, which ->
+                logout()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+        Toast.makeText(this, "Sesión cerrada.", Toast.LENGTH_SHORT).show()
+    }
+
+
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
@@ -134,6 +150,7 @@ class MainActivity : AppCompatActivity() {
             }
         }, ContextCompat.getMainExecutor(this))
     }
+
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
@@ -161,7 +178,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    // ---------- ANÁLISIS DE IMAGEN ----------
+
     private fun analyzeBitmap(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
@@ -186,11 +203,14 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    // ---------- CONSULTA A LA API ----------
+
     private fun searchFood(name: String) {
         val call: Call<ProductResponse> = RetrofitInstance.api.searchFood(name, size = 10)
         call.enqueue(object : Callback<ProductResponse> {
-            override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
+            override fun onResponse(
+                call: Call<ProductResponse>,
+                response: Response<ProductResponse>
+            ) {
                 if (response.isSuccessful) {
                     val product = response.body()?.products?.firstOrNull {
                         it.product_name?.contains(name, ignoreCase = true) == true
@@ -208,14 +228,14 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         tvResult.text = """
-                            🥗 ${product.product_name}
-                            
-                            Energía: ${kcal} kcal
-                            Azúcar: ${sugar} g
-                            Grasas: ${fat} g
-                            
-                            Resultado: $saludable
-                        """.trimIndent()
+                    🥗 ${product.product_name}
+
+                   Energía: ${kcal} kcal
+                   Azúcar: ${sugar} g
+                   Grasas: ${fat} g
+
+                  Resultado: $saludable
+                  """.trimIndent()
 
                         Glide.with(this@MainActivity)
                             .load(product.image_url)
@@ -234,7 +254,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // ---------- PERMISOS ----------
+
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {

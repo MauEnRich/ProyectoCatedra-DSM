@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoCatedraDSM">
         <activity
+            android:name=".CreatePostActivity"
+            android:exported="false" />
+        <activity
             android:name=".CommunityActivity"
             android:exported="false" />
         <activity

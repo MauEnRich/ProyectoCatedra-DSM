@@ -2,13 +2,15 @@ package sv.edu.proyectocatedradsm
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class IMCActivity : AppCompatActivity() {
 
@@ -20,6 +22,7 @@ class IMCActivity : AppCompatActivity() {
         val etAltura = findViewById<EditText>(R.id.etAltura)
         val btnCalcular = findViewById<Button>(R.id.btnCalcular)
         val tvResultado = findViewById<TextView>(R.id.tvResultado)
+
 
         btnCalcular.setOnClickListener {
             val peso = etPeso.text.toString().toFloatOrNull()
@@ -41,7 +44,7 @@ class IMCActivity : AppCompatActivity() {
             tvResultado.text = "Tu IMC es %.2f\n$resultado".format(imc)
         }
 
-        // --- Menú inferior ---
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.nav_imc
 
@@ -52,13 +55,44 @@ class IMCActivity : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                     true
                 }
-                R.id.nav_imc -> true // ya estamos aquí
-                R.id.nav_config -> {
-                    Toast.makeText(this, "Configuración (en desarrollo)", Toast.LENGTH_SHORT).show()
+
+                R.id.nav_imc -> {
                     true
+                }
+
+                R.id.nav_community -> {
+                    startActivity(Intent(this, CommunityActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.nav_logout -> {
+                    showLogoutConfirmation()
+                    false
                 }
                 else -> false
             }
         }
+    }
+
+
+    private fun showLogoutConfirmation() {
+        AlertDialog.Builder(this)
+            .setTitle("Cerrar Sesión")
+            .setMessage("¿Estás seguro de que quieres cerrar la sesión actual?")
+            .setPositiveButton("Sí, Cerrar") { dialog, which ->
+                logout()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+        Toast.makeText(this, "Sesión cerrada.", Toast.LENGTH_SHORT).show()
     }
 }

@@ -23,7 +23,7 @@ data class Nutriments(
 
 interface OpenFoodApi {
 
-    // Endpoint público correcto para búsqueda
+
     @GET("cgi/search.pl")
     fun searchFood(
         @Query("search_terms") search: String,

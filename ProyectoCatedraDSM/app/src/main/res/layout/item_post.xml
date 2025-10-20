@@ -1,33 +1,65 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#FFFFFF"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp">
+    android:layout_marginBottom="16dp"
+    android:layout_marginHorizontal="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/tvAutor"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="#1E3A8A"
-        android:text="Autor" />
+        android:padding="16dp"
+        android:background="@drawable/card_background">
 
-    <TextView
-        android:id="@+id/tvFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="#777777"
-        android:text="Fecha" />
+        <TextView
+            android:id="@+id/tvAutor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#1A237E"
+            android:text="Autor del Post"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDeletePost" />
 
-    <TextView
-        android:id="@+id/tvContenido"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Contenido del post" />
+        <TextView
+            android:id="@+id/tvFecha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#90A4AE"
+            android:text="Fecha de Publicación"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tvAutor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDeletePost" />
 
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/btnDeletePost"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@android:drawable/ic_delete"  android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eliminar Post"
+            app:tint="#E53935" android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tvContenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:text="Contenido completo del post que puede ocupar varias líneas para describir la receta o consejo nutricional."
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tvFecha"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
