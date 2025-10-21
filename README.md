@@ -7,8 +7,7 @@
 - Mauricio Enrique Herrera Rico – HR230334
 
 ## PDF
-
-- **[Doc-DSM.pdf](https://github.com/user-attachments/files/22000843/Doc-DSM.pdf)**
+- **[Documento técnico-Proyecto Final..pdf](https://github.com/user-attachments/files/23012725/Documento.tecnico-Proyecto.Final.pdf)**
 
 ## Link a Notion
 
@@ -38,7 +37,6 @@
 La aplicación permite:  
 - Escanear alimentos mediante código de barras.  
 - Consultar información nutricional y clasificar alimentos como saludables, moderados o poco saludables.  
-- Recibir recomendaciones de productos alternativos más saludables.  
 
 ---
 
@@ -52,9 +50,31 @@ La aplicación permite:
 ## Tecnologías utilizadas
 - **Lenguaje de programación:** Kotlin  
 - **IDE:** Android Studio  
-- **Base de datos:** MySQL  
+- **Base de datos:** Firebase Authentication y Firestore Database
 - **Diseño de interfaz:** Figma / Canva  
 - **Control de versiones:** Git y GitHub  
+
+---
+
+## Método de instalación
+
+### **Opción 1: Desde el código fuente**
+1. Descarga el proyecto como archivo `.zip` o clónalo directamente con Git.  
+2. Extrae o ubica la carpeta del proyecto en tu equipo.  
+3. Abre **Android Studio 2025.1.4** *(opcional, pero recomendado)*.  
+4. Importa el proyecto desde **“Open Project”** o arrastra la carpeta directamente al IDE.  
+5. Espera a que Android Studio sincronice las dependencias.  
+6. Ejecuta el proyecto ▶️ asegurándote de tener configurado un **emulador** o un **dispositivo físico conectado**.
+
+---
+
+### **Opción 2: Instalación directa del APK**
+1. En tu dispositivo Android, habilita la instalación de aplicaciones desde **fuentes desconocidas** *(puede variar según el fabricante)*:
+   - Abre **Configuración → Seguridad**  
+   - Busca y activa **Fuentes desconocidas** o **Instalar apps desconocidas**  
+   - Confirma la advertencia de seguridad  
+2. Descarga el archivo `APK` disponible en este repositorio.  
+3. Abre el archivo y sigue las indicaciones del sistema para completar la instalación.
 
 ---
 
