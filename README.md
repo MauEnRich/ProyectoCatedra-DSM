@@ -79,9 +79,17 @@ La aplicación permite:
 ---
 
 ## Licencia
-Este proyecto está bajo la **licencia Creative Commons Atribución 4.0 Internacional (CC BY 4.0).**  
+Este proyecto, incluyendo su documentación y código fuente, se rige por la Licencia Creative Commons Atribución 4.0 Internacional (CC BY 4.0).
 
-Puede compartir, copiar y redistribuir el material en cualquier medio o formato, y puede adaptarlo, remezclarlo o desarrollarlo para cualquier propósito, incluso comercial, siempre dando crédito al autor original:
+La licencia otorga al usuario los siguientes derechos y libertades perpetuas:
+
+Derecho de Compartición (Share): Permite copiar, redistribuir y comunicar el material en cualquier formato y medio.
+
+Derecho de Adaptación (Adapt): Permite remezclar, transformar y construir sobre el material para cualquier finalidad, incluyendo el uso comercial.
+
+El ejercicio de estos derechos está sujeto únicamente a la condición de Atribución (BY):
+
+Se debe dar el crédito adecuado al autor original, proporcionar un enlace a la licencia e indicar si se realizaron modificaciones en el material.
 
 **Elías Daniel Rodríguez Franco, Proyecto ComeBienSV**  
 **Marlon Osmín Ortiz Carcamo, Proyecto ComeBienSV**  
