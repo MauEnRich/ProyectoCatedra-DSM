@@ -73,8 +73,9 @@ La aplicación permite:
    - Abre **Configuración → Seguridad**  
    - Busca y activa **Fuentes desconocidas** o **Instalar apps desconocidas**  
    - Confirma la advertencia de seguridad  
-2. Descarga el archivo `APK` disponible en este repositorio.  
+2. Descarga el archivo `APK` disponible en este repositorio o en el link siguiente https://drive.google.com/drive/folders/1Mzj2B8j2lWKRzN50AcdcwZv--kEH-GN-?usp=drive_link 
 3. Abre el archivo y sigue las indicaciones del sistema para completar la instalación.
+
 
 ---
 
